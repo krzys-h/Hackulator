@@ -8,10 +8,13 @@
 
 int64_t result = 0;
 int64_t inputNumber = 0;
-bool comma = false;
 uint8_t commaPos = 0;
-Key operation = KEY_EQUALS;
+
+bool comma = false;
 bool displayResult = true;
+bool hiddenMode = false;
+
+Key operation = KEY_EQUALS;
 
 void fatal_error()
 {
@@ -42,6 +45,13 @@ void print_number(uint8_t column, int64_t number)
 void update_screen()
 {
     LCD::ClearScreen();
+
+    // Shows hidden mode indicator.
+    if(hiddenMode){
+        LCD::MoveCursor(15, 0);
+        LCD::WriteChar('~');
+    }
+
     if(displayResult)
     {
         print_number(1, result);
@@ -106,8 +116,19 @@ int main()
         }
         else if (key == KEY_ADD || key == KEY_SUB || key == KEY_MUL || key == KEY_DIV || key == KEY_EQUALS || key == KEY_SQRT)
         {
+        	displayResult = true;
+
             if(!displayResult)
             {
+            	// 1337 divided by 0 activates hidden mode
+            	if(operation == KEY_DIV && result == 1337 && inputNumber == 0){
+            		hiddenMode = true;
+            		displayResult = false;
+
+            		update_screen();
+            		continue;
+            	}
+
                 switch(operation)
                 {
                     case KEY_ADD: result += inputNumber; break;
@@ -129,7 +150,6 @@ int main()
             {
                 operation = key;
             }
-            displayResult = true;
         }
         else if(key == KEY_ON)
         {
