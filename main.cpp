@@ -138,6 +138,16 @@ int main()
             wdt_enable(WDTO_15MS);
             while (true);
         }
+        else if(key == KEY_SOUND)
+        {
+            //TODO: just having some fun, do something smarter here :d
+            Speaker::Beep(displayResult ? result : inputNumber, 250);
+            if (!displayResult)
+            {
+                inputNumber = 0;
+                comma = false;
+            }
+        }
         else
         {
             //fatal_error();
