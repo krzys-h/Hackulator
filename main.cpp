@@ -6,8 +6,10 @@
 #include "keyboard.h"
 #include "speaker.h"
 
-int64_t result = 0; //TODO: float
+int64_t result = 0;
 int64_t inputNumber = 0;
+bool comma = false;
+uint8_t commaPos = 0;
 Key operation = KEY_EQUALS;
 bool displayResult = true;
 
@@ -73,7 +75,7 @@ int main()
 
         if (key < 10)
         {
-            if(displayResult)
+            if (displayResult)
             {
                 displayResult = false;
                 if(operation == KEY_EQUALS)
@@ -81,7 +83,22 @@ int main()
                     result = 0;
                 }
             }
-            inputNumber = inputNumber * 10 + key;
+            if (!comma)
+            {
+                inputNumber = inputNumber * 10 + key;
+            }
+            else
+            {
+                //inputNumber = inputNumber + ((int64_t)key / (10*commaPos++));
+            }
+        }
+        else if (key == KEY_COMMA)
+        {
+            if (!displayResult && !comma)
+            {
+                comma = true;
+                commaPos = 1;
+            }
         }
         else if (key == KEY_PLUS_MINUS)
         {
@@ -101,6 +118,7 @@ int main()
                     default: fatal_error();
                 }
                 inputNumber = 0;
+                comma = false;
             }
             if(key == KEY_SQRT)
             {
