@@ -259,6 +259,7 @@ void LCD::Init()
     lcd_init();
     TurnOn(true);
     MoveCursor(0, 0);
+    DDRD |= _BV(4);
 }
 
 void LCD::ClearScreen()
@@ -303,4 +304,17 @@ void LCD::AddCustomCharacter(uint8_t character, const uint8_t image[8])
     WriteToLCD(0x40+character*8, LCDCOMMAND);
     for(uint8_t i = 0; i < 8; i++)
         WriteToLCD(image[i], LCDDATA);
+}
+
+void LCD::EnableBacklight(bool enable)
+{
+    if(enable)
+        PORTD |= _BV(4);
+    else
+        PORTD &= ~_BV(4);
+}
+
+void LCD::ToggleBacklight()
+{
+    PORTD ^= _BV(4);
 }

@@ -6,6 +6,7 @@ class LCD
 {
 public:
     static void Init();
+    
     static void ClearScreen();
     static void TurnOn(bool enableDisplay, bool enableCursor = false, bool enableCursorBlink = false);
     static void MoveCursor(uint8_t x, uint8_t y);
@@ -13,4 +14,7 @@ public:
     static void WriteCharAt(uint8_t x, uint8_t y, char c);
     static void WriteString(const char* s);
     static void AddCustomCharacter(uint8_t character, const uint8_t image[8]);
+
+    static void EnableBacklight(bool enable);
+    static void ToggleBacklight();
 };

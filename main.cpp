@@ -140,13 +140,7 @@ int main()
         }
         else if(key == KEY_SOUND)
         {
-            //TODO: just having some fun, do something smarter here :d
-            Speaker::Beep(displayResult ? result : inputNumber, 250);
-            if (!displayResult)
-            {
-                inputNumber = 0;
-                comma = false;
-            }
+            LCD::ToggleBacklight();
         }
         else
         {
