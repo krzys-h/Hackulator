@@ -1,8 +1,4 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <avr/wdt.h>
-#include <util/delay.h>
-#include <cmath>
+#include <math.h>
 #include "lcd.h"
 #include "keyboard.h"
 #include "speaker.h"
@@ -154,21 +150,13 @@ int main()
         }
         else if(key == KEY_ON)
         {
-            //const static void (*reset)(void) __attribute__((noreturn)) = (const void(*)())0;
-            /*cli();
-            wdt_enable(WDTO_15MS);*/
+            const static void (*reset)(void) __attribute__((noreturn)) = 0;
+            reset();
             while (true);
         }
         else if(key == KEY_SOUND)
         {
             LCD::ToggleBacklight();
-        }
-        else
-        {
-            //fatal_error();
-            LCD::MoveCursor(0, 0);
-            LCD::WriteChar(key);
-            //_delay_ms(100);
         }
 
         update_screen();
